@@ -25,6 +25,7 @@
     "source/build.mjs": "e7e887fab0d666b0d633e981d28c598b6496e6c95c1b506255094e039d458f54",
     "source/index.html": "fb760a4cb042771538799304d1af49bc0640b61b1755e1e9d73dbffbadfa3f95",
     "source/package.json": "5cbddc165ebd30374288ff0f3ea4470bb0992396da9c7f98fbc121fe4ec98257",
-    "source/package-lock.json": "e0c0383d569fe62966025c7fe58cc8d9ed2b3f72e02cafd70aaddc86044aa86e"
+    "source/package-lock.json": "e0c0383d569fe62966025c7fe58cc8d9ed2b3f72e02cafd70aaddc86044aa86e",
+    "source/serve.mjs": "81b494491f5aa1e240beedd054004e145b1abdf67bd6e1104af58da05c577ae5"
   }
 }

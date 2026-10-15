@@ -16,7 +16,7 @@ This test does not verify real HTTP/SSE traffic, reconnect behavior, network tea
 
 - `index.html`, `showcase.css`: the technical presentation, with pricing, business contact and supporting portfolio links omitted from this public edition.
 - `bundle.js`: the existing tested bundle, unchanged. SHA256: `1804d60e0b3ea87b512318946225d2b48001687bf8be02b30b98dd0f4cd65336`.
-- `source/`: the seven original minimal probe/build files, including the dependency lock.
+- `source/`: the seven original minimal probe/build files, including the dependency lock, plus the existing local preview helper.
 - `licenses/`: Svelte, esm-env and esbuild notices.
 - `PROVENANCE.json`: hashes of the distributed runtime and source files.
 
