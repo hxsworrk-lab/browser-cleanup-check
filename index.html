@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hx Works: a self-initiated browser debugging study with a repeatable, controlled Svelte cleanup comparison and explicit test limits.">
+  <meta name="referrer" content="no-referrer">
+  <title>Browser debugging with repeatable checks | Hx Works</title>
+  <link rel="stylesheet" href="./showcase.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the debugging exhibit</a>
+  <header class="page-header">
+    <a class="brand" href="#main" aria-label="Hx Works, debugging exhibit">Hx Works</a>
+    <nav aria-label="Page sections">
+      <a href="#comparison">Run the check</a>
+      <a href="#method">Method and limits</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Self-initiated engineering study</p>
+      <h1 id="page-title">Browser debugging with repeatable checks.</h1>
+      <p class="intro-copy">A small diagnosis that makes one lifecycle failure observable. Run the comparison, inspect the ordered events, and see exactly what the test covers.</p>
+      <a class="button button-primary" href="#comparison">Inspect the cleanup comparison</a>
+    </section>
+
+    <section class="section comparison" id="comparison" aria-labelledby="case-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Main technical exhibit</p>
+          <h2 id="case-title">Async cleanup in Svelte 5.23.2</h2>
+        </div>
+        <p id="version">Loading the fixed Svelte bundle...</p>
+      </div>
+      <p class="case-intro">The two self-written components complete the same Promise step before resource creation. The harness mounts real Svelte components, waits for setup to finish, then unmounts them. A <code>ControlledEventSource</code> records <code>close()</code> calls without opening a network connection.</p>
+
+      <div class="run-controls">
+        <button class="button button-primary" id="run" type="button" aria-describedby="run-note">Run cleanup comparison</button>
+        <p id="run-note">This button runs the local controlled test. It does not contact a service or change a production application.</p>
+      </div>
+      <p class="run-status" id="status" role="status" aria-live="polite" aria-atomic="true">Not run in this session.</p>
+      <noscript><p class="notice">JavaScript is needed to run this comparison. The method and limits remain readable below.</p></noscript>
+
+      <div class="evidence-grid">
+        <section class="evidence-panel" aria-labelledby="resource-title">
+          <div class="panel-heading">
+            <h3 id="resource-title">Controlled resources and DOM</h3>
+            <p>Values appear only after a run.</p>
+          </div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable table of current-run controlled resources and DOM observations">
+            <table>
+              <caption>Current run: creation, close calls, unclosed controlled objects, and DOM state</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Case</th>
+                  <th scope="col">Stage</th>
+                  <th scope="col">Created</th>
+                  <th scope="col">Close calls</th>
+                  <th scope="col">Unclosed</th>
+                  <th scope="col">DOM state</th>
+                </tr>
+              </thead>
+              <tbody id="results"></tbody>
+            </table>
+          </div>
+          <p class="table-note">The runtime field <code>live</code> means an unclosed controlled object. It does not measure a live connection or retained memory. DOM entries show “mounted” after setup and whether removal occurred after unmount.</p>
+          <div class="mount-area">
+            <h4>Real component mount target</h4>
+            <p>The target is empty again after each completed destruction.</p>
+            <div id="mount-target" aria-label="Svelte component mount target"></div>
+          </div>
+        </section>
+
+        <section class="evidence-panel event-panel" aria-labelledby="events-title">
+          <div class="panel-heading">
+            <h3 id="events-title">Lifecycle events and cleanup</h3>
+            <p>Inspect the order, then the measured hooks.</p>
+          </div>
+          <pre id="events" tabindex="0" aria-label="Ordered events from the current comparison">No events recorded in this session.</pre>
+          <p class="table-note">The JSON report includes mounted-DOM presence, DOM removal, <code>onDestroy</code> hook counts, and returned-cleanup callback counts for each case.</p>
+          <details class="report-details">
+            <summary>Inspect the current JSON report</summary>
+            <pre id="report" tabindex="0" aria-label="Current-run observed JSON report">No report generated in this session.</pre>
+          </details>
+        </section>
+      </div>
+    </section>
+
+    <section class="section method" id="method" aria-labelledby="method-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Interpretation</p>
+          <h2 id="method-title">One failure, a bounded comparison.</h2>
+        </div>
+        <p>A current browser run is evidence of this test only.</p>
+      </div>
+      <div class="method-grid">
+        <div>
+          <h3>What the comparison checks</h3>
+          <p>An asynchronous <code>onMount</code> callback returns a Promise. This study compares it with a synchronous callback that returns a cleanup function. Both complete their setup before the harness requests unmount.</p>
+          <p>The report checks real component destruction alongside controlled <code>close()</code> calls. The table and JSON contain observed results from the current run, rather than a saved success result.</p>
+          <p>The synchronous control is not a complete production fix: if destruction occurs while setup is pending, cleanup can run before the resource has been assigned. That timing is not tested here.</p>
+        </div>
+        <div class="limits">
+          <h3>What remains outside this test</h3>
+          <ul>
+            <li>Real HTTP or SSE traffic, reconnect behavior, and network teardown.</li>
+            <li>Memory retention or a measured memory leak.</li>
+            <li>Unmount while asynchronous setup is still pending.</li>
+            <li>Production-application acceptance or a delivered client repair.</li>
+          </ul>
+        </div>
+      </div>
+      <details class="report-details">
+        <summary>Inspect the component source</summary>
+        <p>These self-written components are used by the comparison. The synchronous source is a setup-complete-only control, not a complete production patch; unmount during pending setup is untested.</p>
+        <ul>
+          <li><a href="./source/AsyncCleanup.svelte">Inspect the async callback source</a></li>
+          <li><a href="./source/SyncCleanup.svelte">Inspect the synchronous control source</a></li>
+        </ul>
+      </details>
+      <p class="scope-note">This is an original, self-initiated minimal diagnosis. It is not a customer commission, testimonial, or paid project result.</p>
+    </section>
+
+  </main>
+
+  <footer class="page-footer">
+    <p>Hx Works · Self-initiated engineering evidence</p>
+    <a href="#main">Back to the exhibit</a>
+  </footer>
+  <script type="module" src="./bundle.js"></script>
+</body>
+</html>

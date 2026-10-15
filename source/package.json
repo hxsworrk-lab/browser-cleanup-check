@@ -1,0 +1,14 @@
+{
+  "name": "local-svelte-cleanup-probe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node serve.mjs"
+  },
+  "dependencies": {
+    "esbuild": "0.25.2",
+    "svelte": "5.23.2"
+  }
+}

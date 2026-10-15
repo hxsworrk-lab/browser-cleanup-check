@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Svelte 5.23.2 onMount cleanup probe</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; color: #182332; background: #f5f7fa; margin: 0 auto; padding: 24px; max-width: 1100px; }
+    h1 { font-size: 24px; margin: 0 0 8px; }
+    button { font: inherit; padding: 10px 20px; border: 1px solid #135588; border-radius: 4px; background: #135588; color: white; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    #status { font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 8px; border: 1px solid #bdc9d5; text-align: left; }
+    pre { overflow: auto; padding: 16px; background: #e8eef4; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .note { color: #374a60; }
+    #mount-target { min-height: 24px; border: 1px dashed #8799ab; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Svelte onMount cleanup: minimal local probe</h1>
+  <p id="version">Loading fixed Svelte bundle...</p>
+  <p class="note">Self-written components. Both perform one completed Promise step before resource creation. Real Svelte mount/unmount; the EventSource object is a controlled mock. “Closed” counts close() calls; “live” counts unclosed mock objects.</p>
+  <button id="run" type="button">Run cleanup comparison</button>
+  <p id="status" role="status">Not run. Expected documented behavior is distinct from observed results below.</p>
+  <table>
+    <thead><tr><th>Case</th><th>Stage</th><th>Created</th><th>Closed</th><th>Live</th><th>DOM removed</th></tr></thead>
+    <tbody id="results"></tbody>
+  </table>
+  <p class="note">Scope: destroy only after setup completion. Unmount while setup is pending is not tested. This is not a full HTTP/SSE end-to-end test or a delivered tutorial repair.</p>
+  <p>Real Svelte mount target (empty again after each destruction):</p>
+  <div id="mount-target"></div>
+  <h2>Ordered events</h2>
+  <pre id="events">No observed events yet.</pre>
+  <h2>Observed JSON report</h2>
+  <pre id="report">No report yet.</pre>
+  <p class="note">Reference: <a href="https://svelte.dev/docs/svelte/lifecycle-hooks#onMount">official Svelte lifecycle documentation</a>.</p>
+  <script type="module" src="./bundle.js"></script>
+</body>
+</html>
